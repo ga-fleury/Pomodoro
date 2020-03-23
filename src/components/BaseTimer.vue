@@ -48,13 +48,14 @@ const COLOR_CODES = {
   }
 };
 
-const TIME_LIMIT = 5;
+//initial clock time
+const TIME_LIMIT = 1500;
 
 var endedYet;
 
 export default {
   props: {
-    runState: Boolean
+    CurrentRunState: Boolean
   },
   data() {
     return {
@@ -103,7 +104,7 @@ export default {
   },
 
   mounted() {
-    console.log(this.runState);
+    console.log(this.CurrentRunState);
   },
   watch: {
     timeLeft(newValue) {
@@ -112,7 +113,7 @@ export default {
         this.onTimesUp();
       }
     },
-    runState(newValue) {
+    CurrentRunState(newValue) {
       if (newValue == false) {
         this.stopTimer();
       } else if (newValue == true && endedYet != true) {

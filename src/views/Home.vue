@@ -1,8 +1,8 @@
 <template>
   <div id="home">
     <h1>VueJS Pomodoro Clock</h1>
-    <BaseTimer :runState="isRunning" />
-    <TimerControls :runState="isRunning" @startUpdate="startClicked" />
+    <BaseTimer :CurrentRunState="isRunning" />
+    <TimerControls :CurrentRunState="isRunning" @startUpdate="startClicked" />
   </div>
 </template>
 

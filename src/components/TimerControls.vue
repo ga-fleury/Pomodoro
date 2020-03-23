@@ -3,7 +3,6 @@
     <button @click="playPause()" class="control__button" id="start-btn">
       Start
     </button>
-    <button class="control__button" id="stop-btn">Stop</button>
     <button class="control__button" id="reset-btn">Reset</button>
   </div>
 </template>
@@ -11,11 +10,11 @@
 <script>
 export default {
   props: {
-    runState: Boolean
+    CurrentRunState: Boolean
   },
   data() {
     return {
-      isRunning: this.runState
+      isRunning: this.CurrentRunState
     };
   },
   methods: {
@@ -28,4 +27,24 @@ export default {
 };
 </script>
 
-<style></style>
+<style lang="scss">
+.control {
+  &__button {
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    text-transform: lowercase;
+    color: #fff;
+    background-color: #42b983;
+    margin: 20px;
+    padding: 0.2rem 1rem;
+    border: #42b983 5px solid;
+    border-radius: 5px;
+    cursor: pointer;
+
+    &:hover {
+      color: #42b983;
+      background-color: #fff;
+    }
+  }
+}
+</style>
