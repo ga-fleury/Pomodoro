@@ -1,18 +1,32 @@
 <template>
   <div id="home">
-    <h1>Pomodoro Clock</h1>
-    <BaseTimer />
+    <h1>VueJS Pomodoro Clock</h1>
+    <BaseTimer :runState="isRunning" />
+    <TimerControls :runState="isRunning" @startUpdate="startClicked" />
   </div>
 </template>
 
 <script>
 import BaseTimer from "../components/BaseTimer";
 
+import TimerControls from "../components/TimerControls";
+
 export default {
   name: "home",
-
   components: {
-    BaseTimer
+    BaseTimer,
+    TimerControls
+  },
+  data() {
+    return {
+      isRunning: false
+    };
+  },
+  methods: {
+    startClicked(value) {
+      this.isRunning = value;
+      console.log("isRunning agora é:" + this.isRunning);
+    }
   }
 };
 </script>

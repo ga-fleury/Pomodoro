@@ -48,9 +48,14 @@ const COLOR_CODES = {
   }
 };
 
-const TIME_LIMIT = 1500;
+const TIME_LIMIT = 5;
+
+var endedYet;
 
 export default {
+  props: {
+    runState: Boolean
+  },
   data() {
     return {
       timePassed: 0,
@@ -97,25 +102,37 @@ export default {
     }
   },
 
+  mounted() {
+    console.log(this.runState);
+  },
   watch: {
     timeLeft(newValue) {
       if (newValue === 0) {
+        endedYet = true;
         this.onTimesUp();
       }
+    },
+    runState(newValue) {
+      if (newValue == false) {
+        this.stopTimer();
+      } else if (newValue == true && endedYet != true) {
+        this.startTimer();
+      }
+      console.log(newValue);
     }
-  },
-
-  mounted() {
-    this.startTimer();
   },
 
   methods: {
     onTimesUp() {
-      clearInterval(this.timerInterval);
+      this.stopTimer();
     },
 
     startTimer() {
       this.timerInterval = setInterval(() => (this.timePassed += 1), 1000);
+    },
+
+    stopTimer() {
+      clearInterval(this.timerInterval);
     }
   }
 };
@@ -126,6 +143,7 @@ export default {
   position: relative;
   width: 300px;
   height: 300px;
+  margin: 0 auto;
 
   &__svg {
     transform: scaleX(-1);
