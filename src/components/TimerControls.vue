@@ -1,7 +1,7 @@
 <template>
   <div class="control">
     <button @click="playPause()" class="control__button" id="start-btn">
-      Start
+      {{ playLabel }}
     </button>
     <button class="control__button" id="reset-btn">Reset</button>
   </div>
@@ -14,13 +14,21 @@ export default {
   },
   data() {
     return {
-      isRunning: this.CurrentRunState
+      isRunning: this.CurrentRunState,
+      playLabel: "Start"
     };
+  },
+  mounted() {
+    this.playLabel = "Start";
   },
   methods: {
     playPause() {
       this.isRunning = !this.isRunning;
-      console.log("isRunning agora é:" + this.isRunning);
+      if (this.isRunning == true) {
+        this.playLabel = "Pause";
+      } else if (this.isRunning == false) {
+        this.playLabel = "Start";
+      }
       this.$emit("startUpdate", this.isRunning);
     }
   }
