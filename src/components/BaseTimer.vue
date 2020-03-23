@@ -49,13 +49,14 @@ const COLOR_CODES = {
 };
 
 //initial clock time
-const TIME_LIMIT = 1500;
+var TIME_LIMIT = 1500;
 
 var endedYet;
 
 export default {
   props: {
-    CurrentRunState: Boolean
+    CurrentRunState: Boolean,
+    clockSwitch: Boolean
   },
   data() {
     return {
@@ -70,9 +71,8 @@ export default {
     },
 
     formattedTimeLeft() {
-      const timeLeft = this.timeLeft;
-      const minutes = Math.floor(timeLeft / 60);
-      let seconds = timeLeft % 60;
+      const minutes = Math.floor(this.timeLeft / 60);
+      let seconds = this.timeLeft % 60;
 
       if (seconds < 10) {
         seconds = `0${seconds}`;
@@ -103,14 +103,11 @@ export default {
     }
   },
 
-  mounted() {
-    console.log(this.CurrentRunState);
-  },
   watch: {
     timeLeft(newValue) {
       if (newValue === 0) {
         endedYet = true;
-        this.onTimesUp();
+        this.stopTimer();
       }
     },
     CurrentRunState(newValue) {
@@ -119,19 +116,18 @@ export default {
       } else if (newValue == true && endedYet != true) {
         this.startTimer();
       }
-      console.log(newValue);
+    },
+    clockSwitch() {
+      this.timePassed = 0;
+      clearInterval(this.timerInterval);
+      this.$emit("labelReset", false); //don't touch this. works in misterious ways
     }
   },
 
   methods: {
-    onTimesUp() {
-      this.stopTimer();
-    },
-
     startTimer() {
       this.timerInterval = setInterval(() => (this.timePassed += 1), 1000);
     },
-
     stopTimer() {
       clearInterval(this.timerInterval);
     }

@@ -1,8 +1,17 @@
 <template>
   <div id="home">
     <h1>VueJS Pomodoro Clock</h1>
-    <BaseTimer :CurrentRunState="isRunning" />
-    <TimerControls :CurrentRunState="isRunning" @startUpdate="startClicked" />
+    <BaseTimer
+      @timeUpdate="updateTime"
+      @labelReset="labelReset"
+      :CurrentRunState="isRunning"
+      :clockSwitch="clockSwitcher"
+    />
+    <TimerControls
+      @startUpdate="startClicked"
+      @resetWasTriggered="resetClockSwitcher"
+      :CurrentRunState="isRunning"
+    />
   </div>
 </template>
 
@@ -19,13 +28,22 @@ export default {
   },
   data() {
     return {
-      isRunning: false
+      isRunning: false,
+      clockSwitcher: false
     };
   },
   methods: {
     startClicked(value) {
       this.isRunning = value;
-      console.log("isRunning agora é:" + this.isRunning);
+    },
+    resetClockSwitcher() {
+      this.clockSwitcher = !this.clockSwitcher;
+    },
+    updateTime(value) {
+      this.timeElapsed = value;
+    },
+    labelReset(value) {
+      this.isRunning = value;
     }
   }
 };

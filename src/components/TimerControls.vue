@@ -3,33 +3,33 @@
     <button @click="playPause()" class="control__button" id="start-btn">
       {{ playLabel }}
     </button>
-    <button class="control__button" id="reset-btn">Reset</button>
+    <button @click="resetTrigger()" class="control__button" id="reset-btn">
+      Reset
+    </button>
   </div>
 </template>
 
 <script>
 export default {
-  props: {
-    CurrentRunState: Boolean
-  },
   data() {
     return {
-      isRunning: this.CurrentRunState,
+      isRunning: false,
       playLabel: "Start"
     };
   },
-  mounted() {
-    this.playLabel = "Start";
+  watch: {
+    isRunning(value) {
+      value ? (this.playLabel = "Pause") : (this.playLabel = "Start");
+    }
   },
   methods: {
     playPause() {
       this.isRunning = !this.isRunning;
-      if (this.isRunning == true) {
-        this.playLabel = "Pause";
-      } else if (this.isRunning == false) {
-        this.playLabel = "Start";
-      }
       this.$emit("startUpdate", this.isRunning);
+    },
+    resetTrigger() {
+      this.$emit("resetWasTriggered");
+      this.isRunning = false;
     }
   }
 };
